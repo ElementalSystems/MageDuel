@@ -1,0 +1,94 @@
+#path2 {
+  fill: url('#pattern');
+  stroke: none;
+}
+
+#path1 {
+  fill: none;
+  stroke: rgba(64 ,64,64,.8);
+  stroke-width: 1.5;
+}
+
+#pathedit {
+  fill: none;
+  stroke: rgba(64 ,192,64,.8);
+  stroke-width: 1.5;
+}
+
+#marker {
+  fill: none;
+  stroke: rgba(255 ,64,64,1);
+  stroke-width: .5;
+}
+
+
+g {
+  opacity: .8;
+}
+
+
+#mc1 {
+  fill: rgba(0,0,255,.2);
+}
+
+#win,#win2 {
+  width: 50vh;
+  height: 50vh;
+  position: relative;
+  background: #FFF;
+}
+
+#windemo {
+  width: 80vmin;
+  height: 80vmin;
+  position: relative;
+  background: #FFF;
+}
+
+
+#windemo svg {
+  position: absolute;
+  top:0;
+  left:0;
+  bottom:0;
+  right:0;
+  z-index: 200;
+}
+
+#windemo svg.back {
+  z-index: 150;
+  filter:url('#paper');
+}
+
+#windemo svg.lines {
+  will-change: contents;
+}
+
+#windemo svg.wc {
+  z-index: 160;
+}
+
+#windemo svg.lines g {
+  filter:url('#drawn');
+}
+
+#win svg {
+  position: absolute;
+  top:0;
+  left:0;
+  bottom:0;
+  right:0;
+  z-index: 200;
+
+}
+
+#win img {
+  position: absolute;
+  top:0;
+  left:0;
+  bottom:0;
+  right:0;
+  width:100%;
+  height:100%;
+  z-index: 100;
+}
