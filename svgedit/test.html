@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Mage Duel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css?11">
+</head>
+
+<body onload='start()'>
+  <div id=windemo onclick="clicked(event)">
+    <svg viewBox="0 0 100 100" class=lines>
+      <defs>
+        <pattern id="pattern" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse">
+          <circle id="mc1" cx="3" cy="3" r="3" stroke="none" />
+          <circle cx="6" cy="6" r="3" stroke="none" fill="rgba(128,64,128,.3)" />
+        </pattern>
+        <filter id="drawn" x="-5%" y="-5%" width="105%" height="105%" filterUnits="userSpaceOnUse">
+          <feTurbulence type="fractalNoise" baseFrequency="5 5" in="SourceGraphic">
+          </feTurbulence>
+          <feDisplacementMap xChannelSelector="R" yChannelSelector="G" scale="5" in="SourceGraphic">
+          </feDisplacementMap>
+        </filter>
+      </defs>
+      <g>
+        <path id=path1 d="M0,99 T20,60 T50,10 T70,20 T80,20 T90,40 T70,80 Z" />
+      </g>
+    </svg>
+    <svg viewBox="0 0 100 100" class=wc>
+      <defs>
+        <pattern id="pattern" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse">
+          <circle id="mc1" cx="3" cy="3" r="3" stroke="none" />
+          <circle cx="6" cy="6" r="3" stroke="none" fill="rgba(128,64,128,.3)" />
+        </pattern>
+      </defs>
+      <g>
+        <path id=path2 d="M0,99 T20,60 T50,10 T70,20 T80,20 T90,40 T70,80 Z" />
+      </g>
+    </svg>
+    <svg viewBox="0 0 100 100" class=back>
+      <defs>
+        <filter id="paper" height="110%" width="110%" y="-5%" x="-5%">
+          <feTurbulence numOctaves="4" seed="0" baseFrequency="0.08,0.03" />
+          <feDiffuseLighting lighting-color="rgb(250,250,200)" surfaceScale="3" kernelUnitLength="10" diffuseConstant="1.1" result="paper">
+            <feDistantLight elevation="40" azimuth="75" />
+          </feDiffuseLighting>
+        </filter>
+      </defs>
+      <rect x="0" y="0" width="100" height="100" />
+    </svg>
+  </div>
+  <div id=fps>FPS</div>
+  <script src="scripts.js?9"></script>
+</body>
+
+</html>
