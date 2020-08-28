@@ -1,0 +1,88 @@
+
+body {
+  margin:16px;
+  background: #0FF;
+  width:100%;
+  height:100%;
+}
+
+#full {
+  position: fixed;
+  top:0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #0F0;
+  overflow: hidden;
+  z-index: 100;
+}
+
+
+svg.wld {
+  position: absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  z-index: 200;
+  background: #FFC;
+}
+
+#paper {
+  fill: url('#pattern');
+  z-index: 100;
+}
+
+#lines {
+  z-index: 200;
+  stroke: rgba(0,0,0,.3);
+  stroke-width: 2;
+}
+
+#platform {
+  z-index: 200;
+  stroke: rgba(0,0,0,.9);
+  stroke-width: 5;
+}
+
+g.team0 {
+  fill: #050;
+}
+
+g.team1 {
+  fill: #005;
+}
+
+div.ctltop {
+  position:fixed;
+  width: 40vw;
+  top:0;
+  bottom:0;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  opacity: .3;
+}
+
+div.ctltop.active {
+  opacity:1;
+}
+
+div.card {
+  width: 30vh;
+  height: 30vh;
+  background: #FED;
+  margin: 1vh;
+}
+
+div.ctltop.team0 {
+  left:0;
+}
+
+div.ctltop.team1 {
+  right:0;
+}
+
+div.ctltop.team1 div.card {
+  align-self: flex-end;
+}

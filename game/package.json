@@ -1,0 +1,16 @@
+{
+  "name": "svgedit",
+  "version": "1.0.0",
+  "description": "svg editor",
+  "main": "index.js",
+  "dependencies": {
+    "live-server": "^1.2.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "serve": "live-server",
+    "serve-net": "http-server"
+  },
+  "author": "",
+  "license": "ISC"
+}

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Mage Duel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body onload='start()'>
+  <template id=A_tem>
+    <svg>
+      <g><ellipse cx=25 cy=50 rx=25 ry=50 /></g>
+    </svg>
+  </template>
+  <div id=full>
+    <svg viewBox="0 0 1200 1000" class=wld>
+      <defs>
+        <pattern id="pattern" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse">
+          <line x1=1 y1=-10 x2=1 y2=20 stroke="rgba(0,0,0,.2)" stroke-width=4 />
+          <line x1=7 y1=-10 x2=7 y2=20 stroke="rgba(0,0,0,.3)" stroke-width=4 />
+          <line x1=-10 y1=-10 x2=20 y2=20 stroke="rgba(255,255,255,.3)" stroke-width=2 />
+        </pattern>
+      </defs>
+      <g id=paper>
+        <rect x=-50 y=-50 width=1300 height=1300 />
+      </g>
+      <g id=lines>
+        <line id=platform x1=100 y1=900 x2=1100 y2=900 />
+        <line x1=100 y1=820 x2=1100 y2=820 />
+        <line x1=100 y1=860 x2=1100 y2=860 />
+        <line x1=100 y1=750 x2=1100 y2=750 />
+
+      </g>
+    </svg>
+  </div>
+  <script src="js/gotypes.js"></script>
+  <script src="js/gs.js"></script>
+  <script src="js/ctrl.js"></script>
+</body>
+</html>
