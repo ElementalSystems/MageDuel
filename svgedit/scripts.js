@@ -57,7 +57,7 @@ function eSelect() {
   let st = tb.selectionStart < 5 ? 0 : (tb.selectionStart - 5);
   let next = v.substring(st);
   console.log(next);
-  let result = next.match(/([M TZL]+)(\d+),(\d+)/);
+  let result = next.match(/([MQ TZL]+)(\d+),(\d+)/);
   if (!result) {
     matchStart = -1;
     document.getElementById('marker').setAttribute("cx", -10);

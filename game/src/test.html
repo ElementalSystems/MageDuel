@@ -11,7 +11,17 @@
 <body onload='start()'>
   <template id=A_tem>
     <svg>
-      <g><ellipse cx=25 cy=50 rx=25 ry=50 /></g>
+      <g><ellipse cx=0 cy=50 rx=25 ry=50 /></g>
+    </svg>
+  </template>
+  <template id=B_tem>
+    <svg>
+      <g class=bolt><ellipse cx=0 cy=20 rx=25 ry=5 /></g>
+    </svg>
+  </template>
+  <template id=S_tem>
+    <svg>
+      <g class=shield><ellipse cx=0 cy=20 rx=5 ry=30 /></g>
     </svg>
   </template>
   <div id=full>
@@ -37,6 +47,7 @@
   </div>
   <script src="js/gotypes.js"></script>
   <script src="js/gs.js"></script>
+  <script src="js/deck.js"></script>
   <script src="js/ctrl.js"></script>
 </body>
 </html>

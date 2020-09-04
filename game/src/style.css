@@ -48,8 +48,16 @@ g.team0 {
   fill: #050;
 }
 
+g.team0.bolt {
+  fill: #0B0;
+}
+
 g.team1 {
   fill: #005;
+}
+
+g.team1.bolt {
+  fill: #00B;
 }
 
 div.ctltop {

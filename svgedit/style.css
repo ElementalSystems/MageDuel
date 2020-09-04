@@ -10,9 +10,10 @@
 }
 
 #pathedit {
-  fill: none;
+  fill: rgba(64 ,192,64,.2);
   stroke: rgba(64 ,192,64,.8);
-  stroke-width: 1.5;
+  stroke-width: 2;
+  stroke-linecap: round;
 }
 
 #marker {

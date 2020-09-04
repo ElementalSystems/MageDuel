@@ -7,11 +7,29 @@ function mkCtl(go)
       this.el=document.createElement('div');
       this.el.classList.add("team"+go.team,"ctltop");
       document.getElementById('full').appendChild(this.el);
+      this.deck=shuffle(stdDeck,2)+shuffle(stdDeck,2);
       //add soem test buttons
+      this.drawCard();
+      this.drawCard();
+      this.drawCard();
+    },
+    drawCard: function() {
+      this.addCard(this.deck.charAt(0));
+      this.deck=this.deck.substring(1);
+    },
+    addCard: function(cc)
+    {
+      let cd=cds[cc];
       let e=document.createElement('div');
       e.classList.add('card');
-      e.innerHTML='JUMP';
-      e.onclick=()=>this.activeRes('J');
+      e.innerHTML=cd.t;
+      e.onclick=()=> {
+        if (this.activeRes) {
+          this.activeRes(cc);
+          e.remove();//kill me
+          this.drawCard();
+        }
+      }
       this.el.appendChild(e);
     },
     activeRes: null,
@@ -25,7 +43,6 @@ function mkCtl(go)
       }
     },
   };
-  //create the DOM elements for it
   ctl.init();
   return ctl;
 }
