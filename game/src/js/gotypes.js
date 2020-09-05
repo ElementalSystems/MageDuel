@@ -16,7 +16,7 @@ var mkgot = (ty) => {
             if ((t < 0) || (t >= 1000)) return hits; //not hapening this turn
             if (go.ty == 'A') { //check if vpos matches (avatar)
               console.log("vpos",go.vpos,"vpose",go.vpose);
-              let vp = li(t, go.vpos, go.vpose);
+              let vp = li(t/1000, go.vpos, go.vpose);
               console.log("vp",vp,"vpos",this.vpos);
               if (!((this.vpos < vp + .5) && (this.vpos > vp - go.vlen - .5))) return hits;
               console.log("seems iem we hit");
@@ -39,7 +39,14 @@ var mkgot = (ty) => {
         impTurn: function() {
           this.aQ.push({
             st: 0,
+            et: 500,
+            curve: 2,
+            pos: this.pos + 75 * (this.team ? -1 : 1)
+          });
+          this.aQ.push({
+            st: 500,
             et: 1000,
+            curve: 1,
             pos: this.pos + 150 * (this.team ? -1 : 1)
           });
           if (this.explodeTime) {
@@ -47,13 +54,14 @@ var mkgot = (ty) => {
             this.aQ.push({
               st: this.explodeTime,
               et: this.explodeTime + 400,
-              vpos: 8,
+              curve: 3,
             });
             gs.remove(this);
           }
         },
         init: function() {
-          //this.aQ.push({st:0, et:1000, pos:this.pos+150*(this.team?-1:1)});
+          this.curve=curves.B[0].curve;
+          this.aQ.push({st:0, et:1000, curve: 1});
         },
         aQ: []
       };
@@ -70,23 +78,38 @@ var mkgot = (ty) => {
           impTurn: function() {
             this.aQ.push({
               st: 0,
+              et: 500,
+              curve: 2,
+              pos: this.pos + 5 * (this.team ? -1 : 1)
+            });
+            this.aQ.push({
+              st: 500,
               et: 1000,
+              curve: 1,
               pos: this.pos + 10 * (this.team ? -1 : 1)
             });
             if (this.knockTime) {
               this.aQ.push({
                 st: this.knockTime,
                 et: this.knockTime+200,
-                pos: this.pos - 10 * (this.team ? -1 : 1)
+                curve: 3,
+              });
+              this.aQ.push({
+                st: this.knockTime+200,
+                et: this.knockTime+400,
+                curve: 2,
+                pos: this.pos - 20 * (this.team ? -1 : 1)
               });
               this.knockTime=0;
             }
           },
           init: function() {
+            this.curve=curves.S[0].curve;
             this.aQ.push({
               st: 0,
               et: 1000,
-              pos: this.pos + 50 * (this.team ? -1 : 1)
+              curve: 1,
+              pos: this.pos + 20 * (this.team ? -1 : 1)
             });
           },
           hit: function(t) {
@@ -153,7 +176,7 @@ var mkgot = (ty) => {
                 pos: this.pos + 20 * (this.team ? -1 : 1),
                 vpos: 4
               });
-              this.sret = 1;
+              this.sret = 2;
               break;
             case 'D':
               this.aQ.push({
@@ -168,7 +191,7 @@ var mkgot = (ty) => {
                 pos: this.pos + 20 * (this.team ? -1 : 1),
                 vpos: 1
               });
-              this.sret = 1;
+              this.sret = 2;
               break;
             case 'F':
               this.aQ.push({
@@ -182,7 +205,8 @@ var mkgot = (ty) => {
               this.aQ.push({
                 st: 0,
                 et: 1000,
-                vpos: fS ? 2 : this.vpos
+                vpos: fS ? 2 : this.vpos,
+                pos: this.pos + 20 * (this.team ? -1 : 1),
               });
               break;
             case 'B':
@@ -228,6 +252,8 @@ var mkgot = (ty) => {
 var mkGOEl = (go) => {
   let df = document.importNode(document.querySelector('#' + go.ty + '_tem').content, true);
   go.el = df.querySelector('g');
+  go.pels = df.querySelectorAll('path');
+  console.log(go.pels)
   go.el.classList.add('team' + go.team, 'type' + go.ty);
 }
 

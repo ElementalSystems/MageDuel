@@ -15,12 +15,12 @@ let cds={
     t:'SHIELD',
   },
   X: {
-    t:'skip',
+    t:'STEP',
   }
 };
 
 //let stdDeck="FFJJDDBBBBSS";
-let stdDeck="BBSSXXXXXXXX";
+let stdDeck="BBBSSSJJDDFFXXX";
 
 function shuffle(str,rep)
 {

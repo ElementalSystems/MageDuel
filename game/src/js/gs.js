@@ -14,6 +14,7 @@ var gs={
   },
   start: function() {
     this.wel=document.getElementById('lines');
+    this.cam=document.getElementById('wld');
     this.p1=this.addPlayer(0);
     this.p2=this.addPlayer(1);
     this.setPos();
@@ -60,6 +61,10 @@ var gs={
   setPos: function() {
     this.go.forEach((o)=>{
       o.el.style.transform='translate('+o.pos+'px,'+(900-o.vpos*50)+'px)';
+      if (o.curve!=o.lcurve) {
+        o.lcurve=o.curve;
+        setCurve(o,o.curve);
+      }
     })
   },
   runFrames:function () {
@@ -70,6 +75,7 @@ var gs={
       let going=false;
       this.go.forEach(go=>{ going=this.doAnimate(go,t)||going;});
       this.setPos();
+      this.setCamera();
       if (!going) {
         this.endTurn();
         this.turn();
@@ -94,9 +100,12 @@ var gs={
       }
       if (!a.ipos) a.ipos=go.pos;
       if (!a.ivpos) a.ivpos=go.vpos;
+      if (!a.icurve) a.icurve=go.curve;
+
       let r=(t-a.st)/(a.et-a.st);
       if (a.pos) go.pos=li(r,a.ipos,a.pos);
       if (a.vpos) go.vpos=li(r,a.ivpos,a.vpos);
+      if (a.curve) go.curve=iCurve(r,a.icurve,curves[go.ty][a.curve].curve)
       //check for an interrupting item on the sequence
       for (let i=1;i<go.aQ.length;i+=1)
         if (go.aQ[i].st<t) {//it should have started
@@ -107,6 +116,12 @@ var gs={
       return true;
     }
     return false;
+  },
+  setCamera: function() {
+    //consider the center point
+    //consider this zoom factor
+    //set the box
+
   }
 };
 

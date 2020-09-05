@@ -1,6 +1,6 @@
 let l1;
 let l2;
-const pathRegex = /([M TZL]+)(\d+),(\d+)/g;
+const pathRegex = /([M QTZL]+)(-?\d+),(-?\d+)/g;
 
 function start() {
   console.log("Start");
@@ -19,10 +19,6 @@ function loop(t) {
   document.getElementById('fps').innerHTML = diff;
   requestAnimationFrame(loop);
 }
-
-
-
-//loop();
 
 function encodePath(path) {
   //do the regex - dump into an array lead: x: y:
@@ -57,7 +53,7 @@ function eSelect() {
   let st = tb.selectionStart < 5 ? 0 : (tb.selectionStart - 5);
   let next = v.substring(st);
   console.log(next);
-  let result = next.match(/([MQ TZL]+)(\d+),(\d+)/);
+  let result = next.match(/([MQ \nTZL]+)(-?\d+),(-?\d+)/);
   if (!result) {
     matchStart = -1;
     document.getElementById('marker').setAttribute("cx", -10);
@@ -82,7 +78,7 @@ function edit() {
 
 function clicked(e) {
   let rect = document.getElementById('win').getBoundingClientRect();
-  let x = Math.round((e.pageX - rect.left) * 100 / (rect.right - rect.left));
+  let x = Math.round((e.pageX - rect.left) * 100 / (rect.right - rect.left))-50;
   let y = Math.round((e.pageY - rect.top) * 100 / (rect.bottom - rect.top));
   document.getElementById('marker').setAttribute("cx", x);
   document.getElementById('marker').setAttribute("cy", y);
