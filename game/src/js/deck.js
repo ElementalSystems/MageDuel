@@ -20,7 +20,7 @@ let cds={
 };
 
 //let stdDeck="FFJJDDBBBBSS";
-let stdDeck="BBBSSSJJDDFFXXX";
+let stdDeck="JJDDFFBBSSBBBXXX";
 
 function shuffle(str,rep)
 {

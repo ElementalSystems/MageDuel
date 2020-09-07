@@ -13,7 +13,7 @@ var mkgot = (ty) => {
             if (!go.hit) return hits; //not a hitable thing
             //resolve the time the paths cross horizontally
             let t = (this.pos - go.pos) * 1000 / (go.pose - go.pos - this.pose + this.pos);
-            if ((t < 0) || (t >= 1000)) return hits; //not hapening this turn
+            if ((t <= 0) || (t >= 1000)) return hits; //not hapening this turn
             if (go.ty == 'A') { //check if vpos matches (avatar)
               console.log("vpos",go.vpos,"vpose",go.vpose);
               let vp = li(t/1000, go.vpos, go.vpose);
@@ -40,13 +40,13 @@ var mkgot = (ty) => {
           this.aQ.push({
             st: 0,
             et: 500,
-            curve: 2,
+            curve: [2],
             pos: this.pos + 75 * (this.team ? -1 : 1)
           });
           this.aQ.push({
             st: 500,
             et: 1000,
-            curve: 1,
+            curve: [1],
             pos: this.pos + 150 * (this.team ? -1 : 1)
           });
           if (this.explodeTime) {
@@ -54,14 +54,14 @@ var mkgot = (ty) => {
             this.aQ.push({
               st: this.explodeTime,
               et: this.explodeTime + 400,
-              curve: 3,
+              curve: [3],
             });
             gs.remove(this);
           }
         },
         init: function() {
-          this.curve=curves.B[0].curve;
-          this.aQ.push({st:0, et:1000, curve: 1});
+          this.curve=[curves.B[0].curve];
+          this.aQ.push({st:0, et:1000, curve: [1]});
         },
         aQ: []
       };
@@ -79,36 +79,36 @@ var mkgot = (ty) => {
             this.aQ.push({
               st: 0,
               et: 500,
-              curve: 2,
+              curve: [2],
               pos: this.pos + 5 * (this.team ? -1 : 1)
             });
             this.aQ.push({
               st: 500,
               et: 1000,
-              curve: 1,
+              curve: [1],
               pos: this.pos + 10 * (this.team ? -1 : 1)
             });
             if (this.knockTime) {
               this.aQ.push({
                 st: this.knockTime,
                 et: this.knockTime+200,
-                curve: 3,
+                curve: [3],
               });
               this.aQ.push({
                 st: this.knockTime+200,
                 et: this.knockTime+400,
-                curve: 2,
+                curve: [2],
                 pos: this.pos - 20 * (this.team ? -1 : 1)
               });
               this.knockTime=0;
             }
           },
           init: function() {
-            this.curve=curves.S[0].curve;
+            this.curve=[curves.S[0].curve];
             this.aQ.push({
               st: 0,
               et: 1000,
-              curve: 1,
+              curve: [1],
               pos: this.pos + 20 * (this.team ? -1 : 1)
             });
           },
@@ -126,6 +126,10 @@ var mkgot = (ty) => {
         vpos: 2,
         sret: -1,
         nextAct: null, //selected next action
+        init: function() {
+          this.curve=[curves.A[1].curve,curves.A[101].curve,curves.A[201].curve];
+          //this.aQ.push({st:0, et:1000, curve: [1]});
+        },
         hit: function(t, bullet) {
           this.hitTime = t;
         },
@@ -181,14 +185,9 @@ var mkgot = (ty) => {
             case 'D':
               this.aQ.push({
                 st: 0,
-                et: 900,
-                pos: this.pos + 20 * (this.team ? -1 : 1),
-                vpos: 1
-              });
-              this.aQ.push({
-                st: 900,
                 et: 1000,
                 pos: this.pos + 20 * (this.team ? -1 : 1),
+                curve: [3],
                 vpos: 1
               });
               this.sret = 2;
@@ -196,15 +195,41 @@ var mkgot = (ty) => {
             case 'F':
               this.aQ.push({
                 st: 0,
-                et: 1000,
-                pos: this.pos + 50 * (this.team ? -1 : 1),
+                et: 250,
+                curve: [2],
+                pos: this.pos + 12 * (this.team ? -1 : 1),
+              });
+              this.aQ.push({
+                st: 250,
+                et: 500,
+                curve: [1],
+                pos: this.pos + 24 * (this.team ? -1 : 1),
+              });
+              this.aQ.push({
+                st: 500,
+                et: 750,
+                curve: [2],
+                pos: this.pos + 36 * (this.team ? -1 : 1),
                 vpos: fS ? 2 : this.vpos
               });
-              break;
+              this.aQ.push({
+                st: 750,
+                et: 1000,
+                curve: [1],
+                pos: this.pos + 48 * (this.team ? -1 : 1),
+              });
+            break;
             case 'X':
               this.aQ.push({
                 st: 0,
+                et: 500,
+                curve: [2],
+                pos: this.pos + 10 * (this.team ? -1 : 1),
+              });
+              this.aQ.push({
+                st: 500,
                 et: 1000,
+                curve: [1],
                 vpos: fS ? 2 : this.vpos,
                 pos: this.pos + 20 * (this.team ? -1 : 1),
               });
@@ -212,22 +237,31 @@ var mkgot = (ty) => {
             case 'B':
             case 'S':
               if (!this.hitTime)
-                gs.add(this.nextAct, this.team, this.pos + 80 * (this.team ? -1 : 1), this.vpos);
-              this.aQ.push({
-                st: 0,
-                et: 200,
-                pos: this.pos + 50 * (this.team ? -1 : 1)
-              });
-              this.aQ.push({
-                st: 200,
+                gs.add(this.nextAct, this.team, this.pos + 40 * (this.team ? -1 : 1), this.vpos);
+                this.aQ.push({
+                  st: 0,
+                  et: 200,
+                  curve: [0, 102],
+                  pos: this.pos + 20 * (this.team ? -1 : 1)
+                });
+                this.aQ.push({
+                  st: 200,
+                  et: 500,
+                  curve: [0, 101],
+                  pos: this.pos + 20 * (this.team ? -1 : 1)
+                });
+                this.aQ.push({
+                st: 500,
                 et: 800,
-                pos: this.pos,
+                pos: this.pos+5,
+                curve: [0, 102],
                 vpos: fS ? 2 : this.vpos
               });
               this.aQ.push({
                 st: 800,
                 et: 1000,
-                pos: this.pos + 20 * (this.team ? -1 : 1)
+                curve: [0, 101],
+                pos: this.pos + 10 * (this.team ? -1 : 1)
               });
               break;
           }

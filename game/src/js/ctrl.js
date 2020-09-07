@@ -12,6 +12,9 @@ function mkCtl(go)
       this.drawCard();
       this.drawCard();
       this.drawCard();
+      this.drawCard();
+      this.drawCard();
+      this.drawCard();
     },
     drawCard: function() {
       this.addCard(this.deck.charAt(0));

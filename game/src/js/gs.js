@@ -18,10 +18,11 @@ var gs={
     this.p1=this.addPlayer(0);
     this.p2=this.addPlayer(1);
     this.setPos();
+    this.setCamera();
     this.turn();
   },
   addPlayer: function(team) {
-    let go=this.add('A',team,team?850:250);
+    let go=this.add('A',team,team?750:350);
     return {
       go:go,
       ctl: mkCtl(go)
@@ -48,6 +49,7 @@ var gs={
     this.runFrames();
   },
   endTurn: function() {
+    this.setCamera();
     //remove  dead go
     this.killgo.forEach(go => {
       let i=this.go.indexOf(go);
@@ -60,12 +62,17 @@ var gs={
   },
   setPos: function() {
     this.go.forEach((o)=>{
-      o.el.style.transform='translate('+o.pos+'px,'+(900-o.vpos*50)+'px)';
-      if (o.curve!=o.lcurve) {
-        o.lcurve=o.curve;
-        setCurve(o,o.curve);
+      o.el.style.transform='translate('+o.pos+'px,'+this.calcVP(o.vpos)+'px)';
+      if (o.curve) {
+        o.curve.forEach((c,i)=>{
+            if ((!o.lcurve)||(c!=o.lcurve[i])) setCurve(o,i,c);
+        });
+        o.lcurve=o.curve.map(o=>o);
       }
-    })
+    });
+  },
+  calcVP:function(vp) {
+    return (830-(vp-1)*35);
   },
   runFrames:function () {
     let st=0;
@@ -75,7 +82,7 @@ var gs={
       let going=false;
       this.go.forEach(go=>{ going=this.doAnimate(go,t)||going;});
       this.setPos();
-      this.setCamera();
+
       if (!going) {
         this.endTurn();
         this.turn();
@@ -100,12 +107,15 @@ var gs={
       }
       if (!a.ipos) a.ipos=go.pos;
       if (!a.ivpos) a.ivpos=go.vpos;
-      if (!a.icurve) a.icurve=go.curve;
+      if (!a.icurve) a.icurve=go.curve.map(o=>o);
 
       let r=(t-a.st)/(a.et-a.st);
       if (a.pos) go.pos=li(r,a.ipos,a.pos);
       if (a.vpos) go.vpos=li(r,a.ivpos,a.vpos);
-      if (a.curve) go.curve=iCurve(r,a.icurve,curves[go.ty][a.curve].curve)
+      if (a.curve) //curves changing
+        a.curve.forEach((c,i)=>{
+          if (c) go.curve[i]=iCurve(r,a.icurve[i],curves[go.ty][c].curve)
+        })
       //check for an interrupting item on the sequence
       for (let i=1;i<go.aQ.length;i+=1)
         if (go.aQ[i].st<t) {//it should have started
@@ -119,9 +129,17 @@ var gs={
   },
   setCamera: function() {
     //consider the center point
-    //consider this zoom factor
-    //set the box
+    let cp=(this.p1.go.pos+this.p2.go.pos)/2;
 
+    //consider this zoom factor
+    let w=Math.abs(this.p1.go.pos-this.p2.go.pos)+600;
+
+    if (w>1200) w=1200;
+    let h=w*.833;
+    console.log(cp,w,h);
+    //console.log((cp-w/2)+" "+(1000-h)+" "+w+" "+h);
+    //set the box
+    this.cam.setAttribute("viewBox",(cp-w/2)+" "+(1000-h)+" "+w+" "+h);
   }
 };
 

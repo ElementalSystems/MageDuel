@@ -45,9 +45,9 @@ svg.wld {
 }
 
 g.team0 {
-  stroke: #050;
-  fill: none;
-  stroke-width: 3;
+  stroke: rgba(0,128,0,.8);
+  fill: rgba(0,128,0,.6);
+  stroke-width: .5;
 }
 
 g.team0.bolt {
@@ -55,9 +55,9 @@ g.team0.bolt {
 }
 
 g.team1 {
-  stroke: #005;
-  fill: none;
-  stroke-width: 3;
+  stroke: rgba(0,0,128,.8);
+  fill: rgba(0,0,128,.6);
+  stroke-width: .5;
 }
 
 g.team1 path {
