@@ -141,8 +141,8 @@ var gs={
     }
     return false;
   },
-  cam_w:0,
-  cam_cp:0,
+  cam_w:1000,
+  cam_cp:600,
   setCamera: function() {
     //consider the center point
     let cpi=this.cam_cp;

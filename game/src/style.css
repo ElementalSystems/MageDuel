@@ -68,15 +68,13 @@ g.team1.bolt {
 }
 
 
-
-
 div.ctltop {
   position:fixed;
   width: 40vw;
   top:0;
   bottom:0;
   z-index: 200;
-  opacity: .2;
+  opacity: .6;
 }
 
 div.ctltop.active {
@@ -87,13 +85,58 @@ div.card {
   position: absolute;
   width: 28vh;
   height: 28vh;
-  background: #FFD;
+  background: #FFF;
   border-radius: 3vh;
   border: 1px solid #000;
-  transition: top .5s, left .5s, right .5s,width 2s, height 2s;
+  transition: top .5s, left .5s, right .5s,width 2s, height 2s, transform .5s;
   padding:1vh;
   box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.75);
+}
 
+div.ctltop.team0 div.card.used {
+  transform: translateX(5vh) rotate(10deg);
+}
+
+div.ctltop.team1 div.card.used {
+  transform: translateX(-5vh) rotate(-10deg);
+}
+
+div.ctltop div.hb {
+  position: absolute;
+  width: 25vh;
+  top: 16vh;
+  border-radius: 3vh;
+  border: 2px solid #000;
+  text-align: center;
+}
+
+div.ctltop.team0 div.hb {
+  left: 36vh;
+  background-color: rgba(128,192,128,.7);
+}
+
+div.ctltop.team1 div.hb {
+  right: 36vh;
+  background-color: rgba(128,128,192,.7);
+}
+
+div.ctltop div.hbf {
+  position: absolute;
+  top:0;
+  bottom:0;
+  width: var(--hth);
+  z-index: -100;
+  background-color: #000;
+  transition: width 1s;
+}
+
+div.ctltop.team0 div.hbf {
+  left:0;
+}
+
+
+div.ctltop.team1 div.hbf {
+  right:0;
 }
 
 div.card svg {
@@ -113,6 +156,7 @@ div.card span.name {
  font-family: monospace;
   text-align: center;
 }
+
 
 
 div.card:nth-child(1) {
@@ -145,15 +189,18 @@ div.ctltop.team0 div.card:nth-child(5) {
 
 div.ctltop.team1 div.card:nth-child(4) {
    right: 36vh;
+
 }
 
 div.ctltop.team1 div.card:nth-child(5) {
    right: 50vh;
+
 }
 
 
 div.ctltop.team0 {
   left:0;
+  --hth:50%;
 }
 
 div.ctltop.team0 div.card {
@@ -163,6 +210,7 @@ div.ctltop.team0 div.card {
 
 div.ctltop.team1 {
   right:0;
+  --hth:70%;
 }
 
 div.ctltop.team1 div.card {
