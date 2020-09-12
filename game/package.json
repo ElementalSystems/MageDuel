@@ -4,6 +4,7 @@
   "description": "svg editor",
   "main": "index.js",
   "dependencies": {
+    "http-server": "^0.12.3",
     "live-server": "^1.2.1"
   },
   "devDependencies": {},
