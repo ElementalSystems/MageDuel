@@ -12,6 +12,7 @@ body {
   right: 0;
   overflow: hidden;
   z-index: 100;
+
 }
 
 #warning {
@@ -57,30 +58,80 @@ svg.wld {
 
 #lines {
   z-index: 200;
-  stroke: rgba(0,0,0,.3);
-  stroke-width: 5;
 }
 
-#platform {
-  z-index: 200;
-  stroke: rgba(0,0,0,.9);
-  stroke-width: 5;
+g {
+  stroke-width: .5;
 }
 
 g.team0 {
-  stroke: rgba(0,128,0,.8);
-  fill: rgba(0,128,0,.6);
-  stroke-width: .5;
+  stroke: rgba(var(--p1dr),var(--p1dg),var(--p1db),.8);
+  fill: rgba(var(--p1pr),var(--p1pg),var(--p1pb),.6);
 }
 
-g.team0.bolt {
-  stroke: #0B0;
+g.team0.avatar path.bg {
+  fill: rgba(var(--p1pr),var(--p1pg),var(--p1pb),.2);
+  stroke: none;
+}
+
+g.team0 path.shine {
+  fill: rgba(var(--p1br),var(--p1bg),var(--p1bb),.4);
+  stroke: rgba(var(--p1br),var(--p1bg),var(--p1bb),.9);
+}
+
+g.team1 path.shine {
+  fill: rgba(var(--p2br),var(--p2bg),var(--p2bb),.4);
+  stroke: rgba(var(--p2br),var(--p2bg),var(--p2bb),.9);
+}
+
+g.team0 path.shine2 {
+  fill: rgba(var(--p1dr),var(--p1dg),var(--p1db),.2);
+  stroke: rgba(var(--p1br),var(--p1bg),var(--p1bb),.2);
+}
+
+g.team1 path.shine2 {
+  fill: rgba(var(--p2dr),var(--p2dg),var(--p2db),.2);
+  stroke: rgba(var(--p2br),var(--p2bg),var(--p2bb),.2);
+}
+
+
+g.team0.avatar path.bg.torso {
+  fill: rgba(var(--p1br),var(--p1bg),var(--p1bb),.1);
+}
+
+g.team1.avatar path.bg {
+  stroke: none;
+  fill: rgba(var(--p2pr),var(--p2pg),var(--p2pb),.2);
+}
+
+g.team1.avatar path.bg.torso {
+  fill: rgba(var(--p2br),var(--p2bg),var(--p2bb),.1);
+}
+
+
+g.we, g.shield {
+  stroke-width: 1;
+}
+
+g.team0.we {
+  stroke: rgba(var(--p1br),var(--p1bg),var(--p1bb),1);
+}
+
+g.team1.we {
+  stroke: rgba(var(--p2br),var(--p2bg),var(--p2bb),1);
+}
+
+g.team0.shield {
+  stroke: rgba(var(--p1dr),var(--p1dg),var(--p1db),1);
+}
+
+g.team1.shield {
+  stroke: rgba(var(--p2dr),var(--p2dg),var(--p2db),1);
 }
 
 g.team1 {
-  stroke: rgba(0,0,128,.8);
-  fill: rgba(0,0,128,.6);
-  stroke-width: .5;
+  stroke: rgba(var(--p2dr),var(--p2dg),var(--p2db),.8);
+  fill: rgba(var(--p2pr),var(--p2pg),var(--p2pb),.6);
 }
 
 g.team1 path {
@@ -88,14 +139,11 @@ g.team1 path {
 }
 
 
-g.team1.bolt {
-  stroke: #00B;
-}
 
 
 g.team0.plat {
-  stroke: #040;
-  fill: #040;
+  stroke: rgba(var(--p1dr),var(--p1dg),var(--p1db),1);
+  fill: rgba(var(--p1dr),var(--p1dg),var(--p1db),1);
 }
 
 g.bg path {
@@ -105,8 +153,8 @@ g.bg path {
 }
 
 g.team1.plat {
-  stroke: #004;
-  fill: #004;
+  stroke: rgba(var(--p2dr),var(--p2dg),var(--p2db),1);
+  fill: rgba(var(--p2dr),var(--p2dg),var(--p2db),1);
 }
 
 div.ctltop {
@@ -132,6 +180,23 @@ div.ctltop.team1 div.card.used {
   transform: translateX(-5vh) rotate(-15deg);
 }
 
+div.ctltop div.pname {
+  font-family: cursive;
+  position: absolute;
+  top: 1vh;
+  font-size: 3vh;
+  text-align: left;
+  color:rgba(0,0,0,.8);
+}
+
+div.ctltop.team1 div.pname {
+  right: 35vh;
+}
+div.ctltop.team0 div.pname {
+  left: 35vh;
+}
+
+
 div.ctltop div.hb {
   position: absolute;
   width: 20vw;
@@ -144,14 +209,11 @@ div.ctltop div.hb {
 }
 
 div.ctltop.team0 div.hb {
-  left: 30vh;
-  background-color: rgba(0,0,0,.3);
-
+  left: 35vh;
 }
 
 div.ctltop.team1 div.hb {
-  right: 30vh;
-  background-color: rgba(0,0,0,.3);
+  right: 35vh;
 }
 
 div.ctltop div.hbf {
@@ -165,13 +227,13 @@ div.ctltop div.hbf {
 
 div.ctltop.team0 div.hbf {
   left:0;
-  background-color: #0F0;
+  background-color: rgba(var(--p1br),var(--p1bg),var(--p1bb),1);
 }
 
 
 div.ctltop.team1 div.hbf {
   right:0;
-  background-color: #00F;
+  background-color: rgba(var(--p2br),var(--p2bg),var(--p2bb),1);
 }
 
 
@@ -211,7 +273,8 @@ div.card span.name {
   text-align: center;
 }
 
-div.card span.name::after {
+#full div.card span.name::after {
+  display: none;
   background: #000;
   color: #FFF;
   padding:.5em;
@@ -220,6 +283,10 @@ div.card span.name::after {
   position: absolute;
   bottom:.1em;
   border-radius: .5em;
+}
+
+#full.hi div.card span.name::after {
+  display: block;
 }
 
 div.ctltop.team0 div.card span.name::after {

@@ -12,11 +12,13 @@ var gs={
   remove: function(go) {
     this.killgo.push(go);
   },
-  start: function(p1dm,p2dm,p1d,p2d) {
+  start: function(p1dm,p2dm,p1d,p2d,p1t,p2t) {
     this.wel=document.getElementById('lines');
     this.wel.innerHTML="";
     this.go=[];
     this.killgo=[];
+    setTh(p1t,0);
+    setTh(p2t,1);
     this.add('P',0,425,-1); //platforms
     this.add('P',1,675,-1);
     //select a bg type
@@ -24,8 +26,8 @@ var gs={
     for (i=0;i<10;i+=1) {
        this.add(bgt.charAt(Math.floor(Math.random()*bgt.length)),0,280+i*50+Math.random()*40,Math.random()*3-5);
     }
-    this.p1=this.addPlayer(0,p1dm,p1d);
-    this.p2=this.addPlayer(1,p2dm,p2d);
+    this.p1=this.addPlayer(0,p1dm,p1d,p1t);
+    this.p2=this.addPlayer(1,p2dm,p2d,p2t);
 
     this.setPos();
     this.setCamera();
@@ -37,12 +39,12 @@ var gs={
       this.turn(); //start the first turn
     })
   },
-  addPlayer: function(team,dm,dck) {
+  addPlayer: function(team,dm,dck,th) {
     let go=this.add('A',team,team?600:500,10);
     dm.go=go;
     return {
       go:go,
-      ctl: mkCtl(go,dm,dck)
+      ctl: mkCtl(go,dm,dck,th)
     }
   },
   turn: function() {
@@ -105,31 +107,31 @@ var gs={
     //death animation for loser
     msg("Victory Awarded",2000,"vic");
     if (tko) {
-      loser.go.aQ.push({st:0, et:200, curve: [8,108,208]});
+      loser.go.aQ.push({st:0, et:200, curve: [8,108,208,1008,1108,1208]});
       loser.go.aQ.push({st:200, et:400, curve: [8,104,201]});
       loser.go.aQ.push({st:350, et:800, curve: [1,108,202]});
-      loser.go.aQ.push({st:700, et:1000, curve: [8,108,208]});
+      loser.go.aQ.push({st:700, et:1000, curve: [8,108,208,1008,1108,1208]});
     } else {
-      loser.go.aQ.push({st:0, et:200, curve: [1,102,208]});
+      loser.go.aQ.push({st:0, et:200, curve: [1,102,208,1008,1108,1208]});
       loser.go.aQ.push({st:200, et:500, curve: [8,104,201]});
       loser.go.aQ.push({st:400, et:700, curve: [3,108,208], vpos:-2});
       loser.go.aQ.push({st:600, et:1000, curve: [8,108,208], vpos:-5});
     }
     //vicortu animation for winner
-    winner.go.aQ.push({st:0, et:150, curve: [4,102,203], vpos:2});
-    winner.go.aQ.push({st:200, et:350, curve: [4,104,201], vpos:3});
-    winner.go.aQ.push({st:400, et:600, curve: [4,102,202]});
-    winner.go.aQ.push({st:600, et:1000, curve: [1,103,201], vpos:2});
+    winner.go.aQ.push({st:0, et:150, curve: [4,102,203,1004,1102,1203], vpos:2});
+    winner.go.aQ.push({st:200, et:350, curve: [4,104,201,1004,1104,1201], vpos:3});
+    winner.go.aQ.push({st:400, et:600, curve: [4,102,202,1004,1102,1202]});
+    winner.go.aQ.push({st:600, et:1000, curve: [1,103,201,1001,1103,1201], vpos:2});
     this.runFrames(()=>{
       this.p1.ctl.kill();
       this.p2.ctl.kill();
       moveCam(550,800,820,500);
       //do the victory thing
-      winner.go.aQ.push({st:0, et:1000, curve: [1,102,203], pos: 550-50*(winner.go.team?-1:1), vpos:2});
-      winner.go.aQ.push({st:1200, et:1350, curve: [4,104,201], vpos:3});
-      winner.go.aQ.push({st:1400, et:1600, curve: [4,102,202]});
-      winner.go.aQ.push({st:1600, et:3000, curve: [1,103,201], vpos:5});
-      loser.go.aQ.push({st:0, et:1000, curve: [1,101,208], pos: 550-50*(loser.go.team?-1:1),vpos:2 });
+      winner.go.aQ.push({st:0, et:1000, curve: [1,102,203,1001,1102,1203], pos: 550-50*(winner.go.team?-1:1), vpos:2});
+      winner.go.aQ.push({st:1200, et:1350, curve: [4,104,201,1004,1104,1201], vpos:3});
+      winner.go.aQ.push({st:1400, et:1600, curve: [4,102,202,1004,1102,1202]});
+      winner.go.aQ.push({st:1600, et:3000, curve: [1,103,201,1001,1103,1201], vpos:5});
+      loser.go.aQ.push({st:0, et:1000, curve: [1,101,208,1008,1108,1208], pos: 550-50*(loser.go.team?-1:1),vpos:2 });
       loser.go.aQ.push({st:1200, et:1500, curve: [3,104,201],vpos:1});
       loser.go.aQ.push({st:1400, et:1700, curve: [3,108,202]});
       loser.go.aQ.push({st:1600, et:2000, curve: [3,108,208]});
@@ -286,6 +288,6 @@ function start()
 
 
 
-  //gs.start(mkUserDm(),mkMZDm(6),"FFDJFDJSSCCJCDCCCSSSSSS","1F1C1DC1C1FDCSJCDCSJCDCSJCDCSJCDCSJC");
+  //gs.start(mkMZDm(6),mkMZDm(6),"JBDFFSJBDFFSJBDFFS","BSCJD1F1C1DC1C1FDCSJCDCSJCDCSJCDCSJCDCSJC","p1","mz");
   showMenu(startmenu);
 }

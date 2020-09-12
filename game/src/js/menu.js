@@ -12,7 +12,7 @@ var startmenu=[
     t:"",
   },
   {
-    t:"Enter the CAMPUS of MAGES",
+    t:"Enter the MAGIK UNIVERSITY",
     cmd: ()=> {
       fullScreen();
       setTimeout(()=>showMenu(mainmenu),100);
@@ -52,11 +52,11 @@ var smenu=[
   },
   {
     t:"Basic Dueling",
-    cmd: ()=> gs.start(mkUserDm(),mkMZDm(0),"JDJDFJDFSDSSDBSBSSJDSSS","111B1DBJ1BB1BDBJBJB1SDSJ")
+    cmd: ()=> gs.start(mkUserDm(),mkMZDm(0),"JDJDFJDFSDSSDBSBSSJDSSS","111B1DBJ1BB1BDBJBJB1SDSJ",'p1','mz')
   },
   {
     t:"Close Quarters Combat",
-    cmd: ()=> gs.start(mkUserDm(),mkMZDm(6),"FFDJFDJSSCCJCDCCCSSSSSS","1F1C1DC1C1FDCSJCDCSJCDCSJCDCSJCDCSJC"),
+    cmd: ()=> gs.start(mkUserDm(),mkMZDm(6),"FFDJFDJSSCCJCDCCCSSSSSS","1F1C1DC1C1FDCSJCDCSJCDCSJCDCSJCDCSJC",'p1','mz'),
   },
   {
     t:"",
@@ -103,19 +103,19 @@ var fmenu1=[
   {
     t:"Daft Darius * Basic",
     cmd: ()=>{
-      gs.start(mkUserDm(),mkAIDm(6,1,0,1),decks.basic(),decks.basic());
+      gs.start(mkUserDm(),mkAIDm(6,1,0,1),decks.basic(),decks.basic(),'p1','dd');
     }
   },
   {
     t:"Crazy K * Close Quarters",
     cmd: ()=>{
-      gs.start(mkUserDm(),mkAIDm(2,1,0,2),decks.qq(),decks.qq());
+      gs.start(mkUserDm(),mkAIDm(2,1,0,2),decks.qq(),decks.qq(),"p1","ck");
     }
   },
   {
     t:"Timid Jay * Basic",
     cmd: ()=>{
-      gs.start(mkUserDm(),mkAIDm(2,0,5,0),decks.basic(),decks.basic());
+      gs.start(mkUserDm(),mkAIDm(2,0,5,0),decks.basic(),decks.basic(),'p1','tj');
     }
   },
   {
@@ -134,19 +134,19 @@ var fmenu2=[
   {
     t:"Marcus X * Basic",
     cmd: ()=>{
-      gs.start(mkUserDm(),mkAIDm(1,1,2,3),decks.basic(),decks.basic());
+      gs.start(mkUserDm(),mkAIDm(1,1,2,3),decks.basic(),decks.basic(),'p1','mx');
     }
   },
   {
     t:"'Killer' Adams * Close Quarters",
     cmd: ()=>{
-      gs.start(mkUserDm(),mkAIDm(1,5,1,5),decks.qq(),decks.qq());
+      gs.start(mkUserDm(),mkAIDm(1,5,1,5),decks.qq(),decks.qq(),'p1','ka');
     }
   },
   {
     t:"Warlock Wilson * Full",
     cmd: ()=>{
-      gs.start(mkUserDm(),mkAIDm(1,0,5,1),decks.full(),decks.full());
+      gs.start(mkUserDm(),mkAIDm(1,0,5,1),decks.full(),decks.full(),'p1','ww');
     }
   },
   {
@@ -166,19 +166,19 @@ var fmenu3=[
   {
     t:"Master Zendaro * Full",
     cmd: ()=>{
-      gs.start(mkUserDm(),mkAIDm(0,2,5,3),decks.full(),decks.full());
+      gs.start(mkUserDm(),mkAIDm(0,2,5,3),decks.full(),decks.full(),'p1','mz');
     }
   },
   {
     t:"Admiral Jamie Ent * Close Quarters",
     cmd: ()=>{
-      gs.start(mkUserDm(),mkAIDm(0,6,3,3),decks.qq(),decks.qq());
+      gs.start(mkUserDm(),mkAIDm(0,6,3,3),decks.qq(),decks.qq(),'p1','aj');
     }
   },
   {
     t:"Master Zi * Full",
     cmd: ()=>{
-      gs.start(mkUserDm(),mkAIDm(0,2,5,2),decks.full(),decks.full());
+      gs.start(mkUserDm(),mkAIDm(0,2,5,2),decks.full(),decks.full(),'p1','zz');
     }
   },
   {
@@ -198,19 +198,19 @@ var pmenu=[
   {
     t:"PvP - Basic Deck",
     cmd: ()=>{
-      gs.start(mkUserDm(),mkUserDm(),decks.basic(),decks.basic());
+      gs.start(mkUserDm(),mkUserDm(),decks.basic(),decks.basic(),'p1','p2');
     }
   },
   {
     t:"PvP - Close Quarters Deck",
     cmd: ()=>{
-      gs.start(mkUserDm(),mkUserDm(),decks.qq(),decks.qq());
+      gs.start(mkUserDm(),mkUserDm(),decks.qq(),decks.qq(),'p1','p2');
     }
   },
   {
     t:"PvP - Advanced Deck",
     cmd: ()=>{
-      gs.start(mkUserDm(),mkUserDm(),decks.full(),decks.full());
+      gs.start(mkUserDm(),mkUserDm(),decks.full(),decks.full(),'p1','p2');
     }
   },
   {

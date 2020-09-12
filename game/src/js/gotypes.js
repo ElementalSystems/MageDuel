@@ -193,11 +193,11 @@ var mkgot = (ty) => {
         sret: -1,
         nextAct: null, //selected next action
         init: function() {
-          this.curve=[curves.A[1].curve,curves.A[101].curve,curves.A[203].curve];
-          this.aQ.push({st:0, et:800, curve: [4,102,201], vpos: 1});
-          this.aQ.push({st:800, et:1000, curve: [2,102,203], vpos: 2});
-          this.aQ.push({st:1000, et:1500, curve: [3,101,201], vpos: 1});
-          this.aQ.push({st:1500, et:2000, curve: [1,101,202], vpos: 2});
+          this.curve=[curves.A[1].curve,curves.A[101].curve,curves.A[203].curve,curves.A[1001].curve,curves.A[1101].curve,curves.A[1203].curve];
+          this.aQ.push({st:0, et:800, curve: [4,102,201,1004,1102,1201], vpos: 1});
+          this.aQ.push({st:800, et:1000, curve: [2,102,203,1002,1102,1203], vpos: 2});
+          this.aQ.push({st:1000, et:1500, curve: [3,101,201,1003,1101,1201], vpos: 1});
+          this.aQ.push({st:1500, et:2000, curve: [1,101,202,1001,1101,1202], vpos: 2});
           this.aQ.push({st:2000, et:3000, pos: this.pos-120 * (this.team ? -1 : 1)});
         },
         hit: function(t, bullet,hurt,dist) {
@@ -207,11 +207,14 @@ var mkgot = (ty) => {
         },
         prepTurn: function() {
           //just figure out where we are going to be
+          this.vpose=this.vpos;
+          this.pose=this.pos;
+
           let fS = (this.sret == 1);
           switch (this.nextAct) {
             case 'J':
               this.vpose = fS?2:4;
-              this.pose = this.pos + 20 * (this.team ? -1 : 1);
+              this.pose = this.pos + 30 * (this.team ? -1 : 1);
               break;
             case 'D':
               this.vpose = 1;
@@ -244,27 +247,27 @@ var mkgot = (ty) => {
                 st: 0,
                 et: 100,
                 pos: this.pos + 5 * (this.team ? -1 : 1),
-                curve:[4],
+                curve:[4,0,0,1004],
                 vpos: 1.2
               });
               this.aQ.push({
                 st: 100,
                 et: 400,
                 pos: this.pos + 10 * (this.team ? -1 : 1),
-                curve:[2],
+                curve:[2,0,0,1002],
                 vpos: 3
               });
               this.aQ.push({
                 st: 400,
                 et: 700,
-                pos: this.pos + 15 * (this.team ? -1 : 1),
-                curve:[4],
+                pos: this.pos + 25 * (this.team ? -1 : 1),
+                curve:[4,0,0,1004],
                 vpos: 4.2
               });
               this.aQ.push({
                 st: 700,
                 et: 1000,
-                pos: this.pos + 20 * (this.team ? -1 : 1),
+                pos: this.pos + 30 * (this.team ? -1 : 1),
                 vpos: 4
               });
               this.sret = 1;
@@ -274,14 +277,14 @@ var mkgot = (ty) => {
                 st: 0,
                 et: 700,
                 pos: this.pos + 6 * (this.team ? -1 : 1),
-                curve: [4,0,203],
+                curve: [4,0,203,1004,0,1203],
                 vpos: .9
               });
               this.aQ.push({
                 st: 700,
                 et: 1000,
                 pos: this.pos + 10 * (this.team ? -1 : 1),
-                curve: [3,0,201],
+                curve: [3,0,201,1003,0,1201],
                 vpos: 1
               });
               this.sret = 1;
@@ -291,25 +294,25 @@ var mkgot = (ty) => {
               this.aQ.push({
                 st: 0,
                 et: 250,
-                curve: [bf+1],
+                curve: [bf+1,0,0,1000+bf+1],
                 pos: this.pos + 12 * (this.team ? -1 : 1),
               });
               this.aQ.push({
                 st: 250,
                 et: 500,
-                curve: [bf],
+                curve: [bf,0,0,1000+bf],
                 pos: this.pos + 24 * (this.team ? -1 : 1),
               });
               this.aQ.push({
                 st: 500,
                 et: 750,
-                curve: [bf+1],
+                curve: [bf+1,0,0,1000+bf+1],
                 pos: this.pos + 36 * (this.team ? -1 : 1),
               });
               this.aQ.push({
                 st: 750,
                 et: 1000,
-                curve: [bf],
+                curve: [bf,0,0,1000+bf],
                 pos: this.pos + 48 * (this.team ? -1 : 1),
               });
             break;
@@ -335,22 +338,22 @@ var mkgot = (ty) => {
               this.aQ.push({
                 st: 0,
                 et: 200,
-                curve: [0, 102,202],
+                curve: [0, 102,202,0,1102,1202],
               });
               this.aQ.push({
                 st: 300,
                 et: 500,
-                curve: [0, 104,203],
+                curve: [0, 104,203,0,1104,1203],
               });
               this.aQ.push({
                 st: 500,
                 et: 700,
-                curve: [0, 103,202],
+                curve: [0, 103,202,0,1103,1202],
               });
               this.aQ.push({
                 st: 800,
                 et: 1000,
-                curve: [0, 104,201],
+                curve: [0, 104,201,0,1104,1201],
               });
               break;
           }
@@ -359,7 +362,7 @@ var mkgot = (ty) => {
             this.aQ.push({
               st:800,
               et:1000,
-              curve: [1],
+              curve: [1,0,0,1001],
               vpos: 2,
             });
           }
@@ -367,19 +370,18 @@ var mkgot = (ty) => {
             this.aQ.push({
               st: this.hitTime,
               et: this.hitTime + 300,
-              curve: [8,108,208]
+              curve: [8,108,208,1008,1108,1208]
             });
             this.aQ.push({
               st: this.hitTime+ 300,
               et: this.hitTime + 600,
               pos: this.pos - 80 * (this.team ? -1 : 1),
               vpos: 2,
-              curve: [0,108,208]
             });
             this.aQ.push({
               st: this.hitTime + 600,
               et: this.hitTime + 700,
-              curve: [1,101,202]
+              curve: [1,101,202,1001,1101,1202]
             });
             this.hitTime = 0;
           }
@@ -387,11 +389,16 @@ var mkgot = (ty) => {
         aQ: [],
         health: 100,
       };
-    case 'P': //background stuff
+    case 'P': //the platform
         return {
             init: function() {
-              this.curve=[curves.P[1].curve];
+              this.curve=[curves.P[1].curve,curves.P[101].curve,curves.P[104].curve];
             },
+            impTurn() {
+              let st=Math.random()*500;
+              this.aQ=[{st:st, et:st+500, curve:[0,101+Math.floor(Math.random()*4),101+Math.floor(Math.random()*4)]}];
+            },
+            aQ:[],
         };
     default: //background stuff
       return {

@@ -1,4 +1,4 @@
-function mkCtl(go, dm, dck) {
+function mkCtl(go, dm, dck,thm) {
   //local controller
   ctl = {
     go: go,
@@ -7,6 +7,7 @@ function mkCtl(go, dm, dck) {
       let df = document.importNode(document.querySelector('#Ctl_tem').content, true);
       this.el = df.querySelector('div.ctltop');
       this.crdsel = df.querySelector('div.crds');
+      df.querySelector('div.pname').innerHTML=tth[thm].n;
       this.el.classList.add("team" + go.team);
       document.getElementById('full').appendChild(this.el);
       this.deck = dck;

@@ -44,7 +44,12 @@ let bcurves={
   F:{ 1: "M-35,60 Q-12,63 29,60 M41,60 Q9,53 7,41  M41,62 Q17,65 11,78 M21,60 Q-4,54 -13,41  M21,62 Q1,66 -9,78" },
   D:{ 1: "M-6,28 Q-12,63 4,88 M8,92 Q1,72 13,63  M3,91 Q-10,82 -21,79" },
   //Scenery
-  P: { 1: "M-100,0 Q -50,-10 50,0 M-0,0 Q100,-10 150,0 M-50,10 Q -80,30 -100,0 M30,30 Q -40,60 -60,0 M50,90 Q 35,10 0,20 M80,90 Q 55,10 30,20"},
+  P: { 1:   "M-100,0 Q -50,-10 50,0 M-0,0 Q100,-10 150,0 M-50,10 Q -80,30 -100,0 M30,30 Q -40,60 -60,0 M50,90 Q 35,10 0,20 M80,90 Q 55,10 30,20",
+       101: "M-50,30 Q 14,32 80,100 M-12,28 Q 36,47 80,100  M17,29 Q 39,37 80,100",
+       102: "M-10,30 Q 14,32 80,100 M22,28 Q 36,47 80,100  M47,29 Q 39,37 80,100",
+       103: "M-0,30 Q 64,32 110,100 M-42,28 Q 86,47 110,100  M77,29 Q 89,37 110,100",
+       104: "M30,10 Q 64,32 120,100 M82,18 Q 86,47 120,100  M120,19 Q 89,37 120,100",
+      },
   M: { 0: "M0,0 Q1,1 2,2 M0,0 Q1,1 2,2 M0,0 Q1,1 2,2 M0,0 Q1,1 2,2",
        1: "M5,10 Q-9,41 -49,95 M5,10 Q2,56 39,92 M-10,43 Q-10,61 -3,71 M-24,62 Q-25,72 -19,82",
        2: "M5,10 Q-9,41 -49,95 M5,10 Q2,56 39,92 M-20,80 Q-28,75 -40,92 M19,68 Q15,81 -19,82",
@@ -73,11 +78,15 @@ let curves={
 function preProcessCurves() {
   let ppce=(el)=>{
     let r={};
-    Object.keys(el).forEach(key=>{r[key]={ curve:brushCurve(encodeCurve(el[key])),
-                                           inner:innerCurve(encodeCurve(el[key]))}});
+    Object.keys(el).forEach(key=>{
+      r[key]={ curve:brushCurve(encodeCurve(el[key]))};
+      r[+key+1000]={ curve:innerCurve(encodeCurve(el[key]))};
+      r[+key+2000]={ curve:encodeCurve(el[key])};
+    });
     return r;
   }
   Object.keys(bcurves).forEach(key=> curves[key]=ppce(bcurves[key]));
+  console.log(curves);
 }
 
 preProcessCurves();
