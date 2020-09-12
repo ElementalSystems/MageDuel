@@ -267,8 +267,7 @@ function moveCam(cpe,we,ycpe,mt) {
 
 function start()
 {
-  let mobile=( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) );
-  if (!mobile) { //swicth ont he filters and the keyboard
+  if (!detectMobile()) { //swicth ont he filters and the keyboard
     document.getElementById('full').classList.add('hi');
     document.getElementById('full').focus();
     document.getElementById('full').onkeydown=(e)=>{
@@ -283,11 +282,22 @@ function start()
         case 'n': return gs.p2.ctl.dm.activeKey?gs.p2.ctl.dm.activeKey(3):0;
       }
     };
-
   }
-
-
 
   //gs.start(mkMZDm(6),mkMZDm(6),"JBDFFSJBDFFSJBDFFS","BSCJD1F1C1DC1C1FDCSJCDCSJCDCSJCDCSJCDCSJC","p1","mz");
   showMenu(startmenu);
+}
+
+function detectMobile() {
+  let isMobile = RegExp(/Android|webOS|iPhone|iPod|iPad/i)
+   .test(navigator.userAgent);
+
+  if (!isMobile) {
+    const isMac = RegExp(/Macintosh/i).test(navigator.userAgent);
+
+    if (isMac && navigator.maxTouchPoints && navigator.maxTouchPoints > 2) {
+      isMobile = true;
+    }
+  }
+  return isMobile;
 }
