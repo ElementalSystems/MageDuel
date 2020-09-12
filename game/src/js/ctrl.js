@@ -1,14 +1,15 @@
-function mkCtl(go, dm) {
+function mkCtl(go, dm, dck) {
   //local controller
   ctl = {
     go: go,
+    dm: dm,
     init: function() {
       let df = document.importNode(document.querySelector('#Ctl_tem').content, true);
       this.el = df.querySelector('div.ctltop');
       this.crdsel = df.querySelector('div.crds');
       this.el.classList.add("team" + go.team);
       document.getElementById('full').appendChild(this.el);
-      this.deck = shuffle(stdDeck, 2) + shuffle(stdDeck, 2) + shuffle(stdDeck, 2);
+      this.deck = dck;
       this.drawCard();
       this.drawCard();
       this.drawCard();
@@ -16,6 +17,9 @@ function mkCtl(go, dm) {
       this.drawCard();
       this.drawCard();
       this.drawCard();
+    },
+    kill: function() {
+      this.el.remove();
     },
     drawCard: function() {
       this.addCard(this.deck.charAt(0));
@@ -47,7 +51,7 @@ function mkCtl(go, dm) {
         this.cardOut = null;
       }
       this.el.classList.add('active');
-      let ops = Array.from(this.el.querySelectorAll('div.card')).slice(0, 3);
+      let ops = Array.from(this.el.querySelectorAll('div.card')).slice(0, 4);
       console.log(ops);
       dm.choose(ops, (e) => {
         e.classList.add("used");
@@ -68,14 +72,50 @@ function mkUserDm() {
   return {
     choose: function(ops, res) {
       this.activeRes = (e) => {
-        this.activeRes = null
+        this.activeRes = null;
+        this.activeKey = null;
         res(e);
+      }
+      this.activeKey = (i) => {
+        this.activeRes = null;
+        this.activeKey = null;
+        res(ops[i]);
       }
     },
     activeRes: null,
+    activeKey: null,
   }
 }
 
+let MZt=[
+  "Welcome Apprentice - Click one of  the four 'move' cards on your side of the board (or use key indicated).",
+  "Well done. These cards allow you to control your position, try a few to see what they do",
+  "You lose if you fall off the back of the plyth so it's important to stay forward.",
+  "Now try dodge some incoming magic bolts!",
+  "You can also use a cast a shield spell to create a defence but it will only protect you next round.",
+  "And try casting your our bolts to attack me. I think you are getting the basics.",
+
+  "Spells are faster at close quarters so many wizards prefer fighting as close as possible.",
+  "The Blast Spell is short range but deadly. Blasts spread up and down as they expand.",
+  "Use your shields carefully against them and control your range to your advantage.",
+  "Many a duel is won by an aggressive close quarters strategy pushing the opponent backwards.",
+  "So come at me lets see what you've learnt!"
+];
+
+function mkMZDm(off) {
+  let ai=0;
+  return {
+    choose: function(ops, res) {
+      setTimeout(() => {
+        res(ops[0]);
+        if (ops[0].gameAction=='1') {
+          msg(MZt[ai+off],15000,"tut");
+          ai+=1;
+        }
+      }, Math.random() * 200);
+    },
+  }
+}
 function mkAIDm(air, aif, ais, aia) {
   return {
     choose: function(ops, res) {
@@ -99,7 +139,6 @@ function mkAIDm(air, aif, ais, aia) {
       let p2 = gs.p1.go.pos;
       let d = p - p2;
 
-      console.log(d,v);
       switch (ga) {
         case 'F':
           sc += aif + (p > 700 ? 2 + 5 * ais : 0) + (p2 < 400 ? 3 * aif + 3 * aia : 0) +(d > 500 ? 3 * aif: 0) ;

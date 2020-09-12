@@ -4,13 +4,16 @@
   "description": "svg editor",
   "main": "index.js",
   "dependencies": {
+    "css-minify": "^1.0.1",
     "http-server": "^0.12.3",
-    "live-server": "^1.2.1"
+    "live-server": "^1.2.1",
+    "uglify-es": "^3.3.9"
   },
   "devDependencies": {},
   "scripts": {
     "serve": "live-server",
-    "serve-net": "http-server"
+    "serve-net": "http-server",
+    "min": "uglifyjs src/js/*.js --compress --output css-dist/scripts.min.js&&css-minify -f src/style.css"
   },
   "author": "",
   "license": "ISC"

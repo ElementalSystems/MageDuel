@@ -3,9 +3,9 @@
 
 <head>
   <meta charset="utf-8">
-  <title>MAGIK-404</title>
+  <title>Mage Duel</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="style.css?22">
+  <link rel="stylesheet" href="style.min.css?23">
 </head>
 
 <body onload='start()'>
@@ -117,12 +117,12 @@
           </feDiffuseLighting>
           <feComposite in="SourceGraphic" in2="paper" operator="arithmetic" k1="1" k2="0" k3="0" k4="0" />
         </filter>
-        <path id="tp0" fill="none" stroke="red" d="M10,60 Q50,110 400,60 T800,70 T600,300 T700,2000" />
-        <path id="tp1" fill="none" stroke="red" d="M80,120 Q300,200 400,120 T800,50 T1000,-100" />
-        <path id="tp2" fill="none" stroke="red" d="M80,200 Q150,250 400,210 T800,500 T1000,2500" />
-        <path id="tp3" fill="none" stroke="red" d="M90,250 Q150,275 400,250 T800,500 T1000,2500" />
-        <path id="tp4" fill="none" stroke="red" d="M100,300 Q250,280 400,300 T600,250 T2000,2500" />
-        <path id="tp5" fill="none" stroke="red" d="M110,330 Q200,380 400,360 T800,450 T2000,2500" />
+        <path id="tp0" d="M10,60 Q50,110 400,60 T800,70 T600,300 T700,2000" />
+        <path id="tp1" d="M80,120 Q300,200 400,120 T800,50 T1000,-100" />
+        <path id="tp2" d="M80,200 Q150,250 400,210 T800,500 T1000,2000" />
+        <path id="tp3" d="M90,250 Q150,275 400,250 T800,500 T1000,2000" />
+        <path id="tp4" d="M100,300 Q250,280 400,300 T600,250 T2000,2000" />
+        <path id="tp5" d="M110,330 Q200,380 400,360 T800,450 T2000,2000" />
 
       </defs>
       <g id=paper>
@@ -132,16 +132,10 @@
         </g>
       </g>
       <g id=lines>
-
       </g>
     </svg>
   </div>
-  <script src="js/curves.js?22"></script>
-  <script src="js/gotypes.js?22"></script>
-  <script src="js/gs.js?22"></script>
-  <script src="js/deck.js?22"></script>
-  <script src="js/ctrl.js?22"></script>
-  <script src="js/menu.js?22"></script>
+  <script src="scripts.min.js"></script>
 </body>
 
 </html>

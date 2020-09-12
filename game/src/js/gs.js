@@ -12,38 +12,43 @@ var gs={
   remove: function(go) {
     this.killgo.push(go);
   },
-  start: function() {
+  start: function(p1dm,p2dm,p1d,p2d) {
     this.wel=document.getElementById('lines');
-    this.cam=document.getElementById('wld');
-    this.add('P',0,400,-1); //platforms
-    this.add('P',1,700,-1);
+    this.wel.innerHTML="";
+    this.go=[];
+    this.killgo=[];
+    this.add('P',0,425,-1); //platforms
+    this.add('P',1,675,-1);
     //select a bg type
     let bgt=["U","M","T","MMT","UUM"][Math.floor(Math.random()*5)];
     for (i=0;i<10;i+=1) {
        this.add(bgt.charAt(Math.floor(Math.random()*bgt.length)),0,280+i*50+Math.random()*40,Math.random()*3-5);
     }
-    this.p1=this.addPlayer(0,mkUserDm());
-    this.p2=this.addPlayer(1,mkAIDm(0,2,.5,3));
+    this.p1=this.addPlayer(0,p1dm,p1d);
+    this.p2=this.addPlayer(1,p2dm,p2d);
 
     this.setPos();
     this.setCamera();
+    msg('Ready',500,'info');
     //run the initial set up of the frames
     this.runFrames(()=>{
       this.setCamera();
+      msg('Engage',1000,'info');
       this.turn(); //start the first turn
     })
   },
-  addPlayer: function(team,dm) {
+  addPlayer: function(team,dm,dck) {
     let go=this.add('A',team,team?600:500,10);
     dm.go=go;
     return {
       go:go,
-      ctl: mkCtl(go,dm)
+      ctl: mkCtl(go,dm,dck)
     }
   },
   turn: function() {
     let p1d=false;
     let p2d=false;
+    document.getElementById('full').focus();
     this.p1.ctl.req((ac)=>{
       this.p1.go.nextAct=ac;
       p1d=true;
@@ -70,6 +75,7 @@ var gs={
       let s=(200-d)/2;
       this.p1.go.aQ.push({ st:0, et:400, pos:this.p1.go.pos-s})
       this.p2.go.aQ.push({ st:0, et:400, pos:this.p2.go.pos+s})
+      msg("Keep Distance",500,"info");
     }
     //re-establish the distance
     this.runFrames(()=>{
@@ -79,19 +85,61 @@ var gs={
   },
   checkWin: function() {
     let winner=null
-    if ((this.p1.go.health<0)||(this.p1.go.pos<300)) {
+    let tko=false;
+    if (this.p2.go.pos>800) {
+      winner=this.p1;
+    } else if (this.p2.go.health<0) {
+      winner=this.p1;
+      tko=true;
+    } else if (this.p1.go.pos<300) {
+      winner=this.p2;
+    } else  if (this.p1.go.health<0) {
+      winner=this.p2;
+      tko=true;
+    }
+    if (this.p1.ctl.deck.length<7) { //finished your deck
       winner=this.p1;
     }
-    if ((this.p2.go.health<0)||(this.p2.go.pos>800)) {
-      winner=this.p2;
-    }
     if (!winner) return false;
-    winner.go.aQ.push({st:0, et:200, curve: [8,108,208]});
-    winner.go.aQ.push({st:200, et:400, curve: [8,104,201]});
-    winner.go.aQ.push({st:400, et:600, curve: [8,103,208]});
-    winner.go.aQ.push({st:600, et:1000, curve: [1,102,202], vpos:-1});
-    this.runFrames(()=>{alert('over')});
-    return false;
+    let loser=(winner==this.p1)?this.p2:this.p1;
+    //death animation for loser
+    msg("Victory Awarded",2000,"vic");
+    if (tko) {
+      loser.go.aQ.push({st:0, et:200, curve: [8,108,208]});
+      loser.go.aQ.push({st:200, et:400, curve: [8,104,201]});
+      loser.go.aQ.push({st:350, et:800, curve: [1,108,202]});
+      loser.go.aQ.push({st:700, et:1000, curve: [8,108,208]});
+    } else {
+      loser.go.aQ.push({st:0, et:200, curve: [1,102,208]});
+      loser.go.aQ.push({st:200, et:500, curve: [8,104,201]});
+      loser.go.aQ.push({st:400, et:700, curve: [3,108,208], vpos:-2});
+      loser.go.aQ.push({st:600, et:1000, curve: [8,108,208], vpos:-5});
+    }
+    //vicortu animation for winner
+    winner.go.aQ.push({st:0, et:150, curve: [4,102,203], vpos:2});
+    winner.go.aQ.push({st:200, et:350, curve: [4,104,201], vpos:3});
+    winner.go.aQ.push({st:400, et:600, curve: [4,102,202]});
+    winner.go.aQ.push({st:600, et:1000, curve: [1,103,201], vpos:2});
+    this.runFrames(()=>{
+      this.p1.ctl.kill();
+      this.p2.ctl.kill();
+      moveCam(550,800,820,500);
+      //do the victory thing
+      winner.go.aQ.push({st:0, et:1000, curve: [1,102,203], pos: 550-50*(winner.go.team?-1:1), vpos:2});
+      winner.go.aQ.push({st:1200, et:1350, curve: [4,104,201], vpos:3});
+      winner.go.aQ.push({st:1400, et:1600, curve: [4,102,202]});
+      winner.go.aQ.push({st:1600, et:3000, curve: [1,103,201], vpos:5});
+      loser.go.aQ.push({st:0, et:1000, curve: [1,101,208], pos: 550-50*(loser.go.team?-1:1),vpos:2 });
+      loser.go.aQ.push({st:1200, et:1500, curve: [3,104,201],vpos:1});
+      loser.go.aQ.push({st:1400, et:1700, curve: [3,108,202]});
+      loser.go.aQ.push({st:1600, et:2000, curve: [3,108,208]});
+      loser.go.aQ.push({st:2000, et:3000, vpos:-4});
+      this.runFrames(()=>{
+        showMenu();
+      });
+
+    });
+    return true;
   },
   endTurn: function() {
     this.setCamera();
@@ -170,51 +218,74 @@ var gs={
     }
     return false;
   },
-  cam_w:1200,
-  cam_cp:600,
   setCamera: function() {
     //consider the center point
-    let cpi=this.cam_cp;
-    let cpe=(this.p1.go.pos+this.p2.go.pos)/2;
-
+    let cp=(this.p1.go.pos+this.p2.go.pos)/2;
     //consider this zoom factor
-    let wi=this.cam_w;
     let we=Math.abs(this.p1.go.pos-this.p2.go.pos)+400;
     if (we>1200) we=1200;
-    let ar=this.cam.clientHeight/this.cam.clientWidth;
-
-    let st=0;
-    let al=(ts)=>{
-      if (!st) st=ts-1;
-      let t=ts-st;
-      let r=t/1000;
-      if (r>1) r=1;
-      let w=li(r,wi,we);
-      let cp=li(r,cpi,cpe);
-      let h=w*ar;
-      this.cam.setAttribute("viewBox",(cp-w/2)+" "+(980-h)+" "+w+" "+h);
-      if (r<1)
-        requestAnimationFrame(al)
-    }
-    requestAnimationFrame(al)
-    this.cam_cp=cpe;
-    this.cam_w=we;
-
+    moveCam(cp,we,820,1000);
   }
 };
-
-function start()
-{
-  let mobile=( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) );
-  if (!mobile)  //swicth ont he filters
-    document.getElementById('full').classList.add('hi');
-  
-  //gs.start();
-  showMenu(mainmenu)
-}
-
 
 function li(r,x1,x2)
 {
   return (x1*(1-r)+x2*r);
+}
+
+let cam_w=1000,cam_cp=500,cam_ycp=200;
+
+function moveCam(cpe,we,ycpe,mt) {
+  let cpi=cam_cp;
+  let ycpi=cam_ycp;
+  let wi=cam_w;
+  let cam=document.getElementById('wld');
+  let ar=cam.clientHeight/cam.clientWidth;
+
+
+  let st=0;
+  let al=(ts)=>{
+    if (!st) st=ts-1;
+    let t=ts-st;
+    let r=t/mt;
+    if (r>1) r=1;
+    let w=li(r,wi,we);
+    let cp=li(r,cpi,cpe);
+    let ycp=li(r,ycpi,ycpe);
+    let h=w*ar;
+    cam.setAttribute("viewBox",(cp-w/2)+" "+(ycp-h/2)+" "+w+" "+h);
+    if (r<1)
+      requestAnimationFrame(al)
+  }
+  requestAnimationFrame(al)
+  cam_cp=cpe;
+  cam_w=we;
+  cam_ycp=ycpe;
+}
+
+function start()
+{
+  let mobile=( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) );
+  if (!mobile) { //swicth ont he filters and the keyboard
+    document.getElementById('full').classList.add('hi');
+    document.getElementById('full').focus();
+    document.getElementById('full').onkeydown=(e)=>{
+      switch (e.key) {
+        case '1': return gs.p1.ctl.dm.activeKey?gs.p1.ctl.dm.activeKey(0):0;
+        case 'q': return gs.p1.ctl.dm.activeKey?gs.p1.ctl.dm.activeKey(1):0;
+        case 'a': return gs.p1.ctl.dm.activeKey?gs.p1.ctl.dm.activeKey(2):0;
+        case 'z': return gs.p1.ctl.dm.activeKey?gs.p1.ctl.dm.activeKey(3):0;
+        case '9': return gs.p2.ctl.dm.activeKey?gs.p2.ctl.dm.activeKey(0):0;
+        case 'i': return gs.p2.ctl.dm.activeKey?gs.p2.ctl.dm.activeKey(1):0;
+        case 'j': return gs.p2.ctl.dm.activeKey?gs.p2.ctl.dm.activeKey(2):0;
+        case 'n': return gs.p2.ctl.dm.activeKey?gs.p2.ctl.dm.activeKey(3):0;
+      }
+    };
+
+  }
+
+
+
+  //gs.start(mkUserDm(),mkMZDm(6),"FFDJFDJSSCCJCDCCCSSSSSS","1F1C1DC1C1FDCSJCDCSJCDCSJCDCSJCDCSJC");
+  showMenu(startmenu);
 }

@@ -1,17 +1,40 @@
+var startmenu=[
+  {
+    t:"MAGIK - 404 ",
+  },
+  {
+    t:"----a tactical turn game of magical duels by elementalsystems-------",
+  },
+  {
+    t:"",
+  },
+  {
+    t:"",
+  },
+  {
+    t:"Enter the CAMPUS of MAGES",
+    cmd: ()=> {
+      fullScreen();
+      setTimeout(()=>showMenu(mainmenu),100);
+    }
+  },
+];
+
+
 var mainmenu=[
   {
-    t:"MAGE - 404 ",
+    t:"MAGIK - 404 ",
   },
   {
-    t:"Advanced Elemental Combat---------a game by elementalsystems",
+    t:"The Advanced Martial Use of Unnatural Energies",
   },
   {
-    t:"Learn to Duel",
+    t:"Classroom: Learn to Duel",
     cmd: ()=> showMenu(smenu),
   },
   {
-    t:"Duel with the Masters",
-    cmd: ()=> gs.start(),
+    t:"Duel with the Faculty Members",
+    cmd: ()=> showMenu(fmenu),
   },
   {
     t:"Duel with another Player",
@@ -24,13 +47,16 @@ var smenu=[
     t:"Classroom Learning 404",
   },
   {
-    t:"Learn how to duel using the fundimental magical forces with Master Zenita",
+    t:"Discover the fundimental magical forces with Master Zenita",
+
   },
   {
     t:"Basic Dueling",
+    cmd: ()=> gs.start(mkUserDm(),mkMZDm(0),"JDJDFJDFSDSSDBSBSSJDSSS","111B1DBJ1BB1BDBJBJB1SDSJ")
   },
   {
     t:"Close Quarters Combat",
+    cmd: ()=> gs.start(mkUserDm(),mkMZDm(6),"FFDJFDJSSCCJCDCCCSSSSSS","1F1C1DC1C1FDCSJCDCSJCDCSJCDCSJCDCSJC"),
   },
   {
     t:"",
@@ -41,6 +67,127 @@ var smenu=[
   },
 ];
 
+var fmenu=[
+  {
+    t:"Practice Halls",
+  },
+  {
+    t:"Challenge students and staff for single player dueling",
+  },
+  {
+    t:"Students in the Class",
+    cmd: ()=> showMenu(fmenu1),
+
+  },
+  {
+    t:"Teachers and Assistants",
+    cmd: ()=> showMenu(fmenu2),
+  },
+  {
+    t:"The Master Magi",
+    cmd: ()=> showMenu(fmenu3),
+  },
+  {
+    t:"back to MAIN MENU",
+    cmd: ()=> showMenu(mainmenu),
+  },
+];
+
+var fmenu1=[
+  {
+    t:"The Students Rooms",
+  },
+  {
+    t:"Not the happiest bunch but they're the only classmates you have.",
+  },
+  {
+    t:"Daft Darius * Basic",
+    cmd: ()=>{
+      gs.start(mkUserDm(),mkAIDm(6,1,0,1),decks.basic(),decks.basic());
+    }
+  },
+  {
+    t:"Crazy K * Close Quarters",
+    cmd: ()=>{
+      gs.start(mkUserDm(),mkAIDm(2,1,0,2),decks.qq(),decks.qq());
+    }
+  },
+  {
+    t:"Timid Jay * Basic",
+    cmd: ()=>{
+      gs.start(mkUserDm(),mkAIDm(2,0,5,0),decks.basic(),decks.basic());
+    }
+  },
+  {
+    t:"back to the PRACTICE HALLS",
+    cmd: ()=> showMenu(fmenu),
+  },
+];
+
+var fmenu2=[
+  {
+    t:"Learning Experiences",
+  },
+  {
+    t:"Take on some more experienced wizards in a fearsome duel.",
+  },
+  {
+    t:"Marcus X * Basic",
+    cmd: ()=>{
+      gs.start(mkUserDm(),mkAIDm(1,1,2,3),decks.basic(),decks.basic());
+    }
+  },
+  {
+    t:"'Killer' Adams * Close Quarters",
+    cmd: ()=>{
+      gs.start(mkUserDm(),mkAIDm(1,5,1,5),decks.qq(),decks.qq());
+    }
+  },
+  {
+    t:"Warlock Wilson * Full",
+    cmd: ()=>{
+      gs.start(mkUserDm(),mkAIDm(1,0,5,1),decks.full(),decks.full());
+    }
+  },
+  {
+    t:"back to the PRACTICE HALLS",
+    cmd: ()=> showMenu(fmenu),
+  },
+];
+
+
+var fmenu3=[
+  {
+    t:"Meet the Masters",
+  },
+  {
+    t:"Prove yourself against some skilled duelists.",
+  },
+  {
+    t:"Master Zendaro * Full",
+    cmd: ()=>{
+      gs.start(mkUserDm(),mkAIDm(0,2,5,3),decks.full(),decks.full());
+    }
+  },
+  {
+    t:"Admiral Jamie Ent * Close Quarters",
+    cmd: ()=>{
+      gs.start(mkUserDm(),mkAIDm(0,6,3,3),decks.qq(),decks.qq());
+    }
+  },
+  {
+    t:"Master Zi * Full",
+    cmd: ()=>{
+      gs.start(mkUserDm(),mkAIDm(0,2,5,2),decks.full(),decks.full());
+    }
+  },
+  {
+    t:"back to the PRACTICE HALLS",
+    cmd: ()=> showMenu(fmenu),
+  },
+];
+
+
 var pmenu=[
   {
     t:"The Duelling Courtyard",
@@ -50,12 +197,21 @@ var pmenu=[
   },
   {
     t:"PvP - Basic Deck",
+    cmd: ()=>{
+      gs.start(mkUserDm(),mkUserDm(),decks.basic(),decks.basic());
+    }
   },
   {
     t:"PvP - Close Quarters Deck",
+    cmd: ()=>{
+      gs.start(mkUserDm(),mkUserDm(),decks.qq(),decks.qq());
+    }
   },
   {
     t:"PvP - Advanced Deck",
+    cmd: ()=>{
+      gs.start(mkUserDm(),mkUserDm(),decks.full(),decks.full());
+    }
   },
   {
     t:"back to MAIN MENU",
@@ -71,6 +227,7 @@ function animateOffset(e,len,off)
     if (!st) st=ts-1;
     let t=ts-st-off;
     let r=t/1000;
+    if (r<0) r=0;
     if (r>1) r=1;
     e.setAttribute("startOffset",(1-r)*len);
     if (r<1)
@@ -79,9 +236,13 @@ function animateOffset(e,len,off)
   requestAnimationFrame(al)
 }
 
+let lMenu=null;
 
 function showMenu(m)
 {
+  if (!m) m=lMenu;
+  lMenu=m;
+  moveCam(500,1000,200,1000);
   //find the menu
   let me=document.getElementById("menu");
   me.innerHTML="";
@@ -98,4 +259,33 @@ function showMenu(m)
     me.appendChild(e);
     animateOffset(tp,1000,(i>1)?(i*200+500):0);
   })
+}
+
+
+let msgto=0;
+function msg(txt,tm,cls)
+{
+  let d=document.getElementById('msg');
+
+  if (msgto) {
+    clearTimeout(msgto);
+    d.classList.remove('act');
+  }
+  setTimeout(()=>{
+    d.innerHTML=txt;
+    d.classList.add('act',cls);
+  },10);
+  msgto=setTimeout(()=>{
+    d.classList.remove('act',cls);
+  },tm);
+}
+
+
+var _fullScreenAttempt=0
+function fullScreen() {
+  if (_fullScreenAttempt) return;
+  var docEl = window.document.documentElement;
+  var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
+  requestFullScreen.call(docEl);
+  _fullScreenAttempt+=1;
 }

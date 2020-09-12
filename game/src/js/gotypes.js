@@ -173,7 +173,7 @@ var mkgot = (ty) => {
           init: function() {
             this.curve=[curves.S[0].curve];
             this.aQ.push({
-              st: 0,
+              st: 500,
               et: 1000,
               curve: [1],
               pos: this.pos + 2 * (this.team ? -1 : 1)
